@@ -16,8 +16,6 @@ namespace WingsCredentialsApproval
         private string personId;
         private string credentialsResult = null; 
         private int id;
-        private string code;
-        private string secret;
 
         public CredentialsGenerator(string clientId, string clientSecret, string name, string description, string email, string [] apis, string personRole, string personId)
         {
@@ -60,8 +58,8 @@ namespace WingsCredentialsApproval
 
             Credentials credentials = JsonConvert.DeserializeObject<Credentials>(credentialsResult);  
             id = credentials.Id;
-            code = credentials.Code;
-            secret = credentials.Secret;
+            clientId = credentials.Code;
+            clientSecret = credentials.Secret;
         }
 
         public string GetClientId()
