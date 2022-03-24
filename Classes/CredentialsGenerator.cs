@@ -16,16 +16,16 @@ namespace WingsCredentialsApproval
         private string personId;
         private string credentialsResult = null;
         
-        public CredentialsGenerator(string clientId, string clientSecret, string name, string description, string email, string [] apis, string personRole, string personId)
+        public CredentialsGenerator(Headers headers, Payload payload)
         {
-            this.clientId = clientId;
-            this.clientSecret = clientSecret;
-            this.name = name;
-            this.description = description;
-            this.email = email;
-            this.apis = apis;
-            this.personRole = personRole;
-            this.personId = personId;
+            this.clientId = headers.ClientId;
+            this.clientSecret = headers.ClientSecret;
+            this.name = payload.name;
+            this.description = payload.description;
+            this.email = payload.email;
+            this.apis = payload.apis;
+            this.personRole = payload.personRole;
+            this.personId = payload.personId;
         }        
         public Credentials GenerateCredentials()
         {                                  
