@@ -2,6 +2,6 @@ namespace WingsCredentialsApproval
 {
     public interface ICredentialsGenerator
     {
-        Credentials GenerateCredentials(Payload payload);
+        string GenerateCredentials(Payload payload);
     }
 }
