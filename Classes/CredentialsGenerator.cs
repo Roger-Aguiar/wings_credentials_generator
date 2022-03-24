@@ -7,27 +7,15 @@ namespace WingsCredentialsApproval
     public class CredentialsGenerator : ICredentialsGenerator
     {
         private string clientId;
-        private string clientSecret;
-        private string name;
-        private string description;
-        private string email;
-        private string [] apis;
-        private string personRole;
-        private string personId;
+        private string clientSecret;        
         private string credentialsResult = null;
-        
-        public CredentialsGenerator(Headers headers, Payload payload)
+                
+        public CredentialsGenerator(Headers headers)
         {
             this.clientId = headers.ClientId;
-            this.clientSecret = headers.ClientSecret;
-            this.name = payload.name;
-            this.description = payload.description;
-            this.email = payload.email;
-            this.apis = payload.apis;
-            this.personRole = payload.personRole;
-            this.personId = payload.personId;
+            this.clientSecret = headers.ClientSecret;  
         }        
-        public Credentials GenerateCredentials()
+        public Credentials GenerateCredentials(Payload payload)
         {                                  
             var authentication = new Authentication(clientId, clientSecret);
             var access_token = authentication.GenerateAccessToken();            
@@ -38,8 +26,7 @@ namespace WingsCredentialsApproval
             request.Headers.Add("client_id", this.clientId);
             request.Headers.Add("client_secret", this.clientSecret);
             request.Headers.Add("access_token", access_token);
-            
-            var payload = new Payload(name, description, email, apis, personRole, personId);            
+                     
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(payload);
 
             using(var streamWriter = new StreamWriter(request.GetRequestStream()))
