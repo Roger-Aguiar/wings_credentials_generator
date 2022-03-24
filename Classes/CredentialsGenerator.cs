@@ -14,9 +14,8 @@ namespace WingsCredentialsApproval
         private string [] apis;
         private string personRole;
         private string personId;
-        private string credentialsResult = null; 
-        private int id;
-
+        private string credentialsResult = null;
+        
         public CredentialsGenerator(string clientId, string clientSecret, string name, string description, string email, string [] apis, string personRole, string personId)
         {
             this.clientId = clientId;
@@ -27,9 +26,8 @@ namespace WingsCredentialsApproval
             this.apis = apis;
             this.personRole = personRole;
             this.personId = personId;
-        }
-
-        public void GenerateCredentials()
+        }        
+        public Credentials GenerateCredentials()
         {                                  
             var authentication = new Authentication(clientId, clientSecret);
             var access_token = authentication.GenerateAccessToken();            
@@ -57,24 +55,8 @@ namespace WingsCredentialsApproval
             }
 
             Credentials credentials = JsonConvert.DeserializeObject<Credentials>(credentialsResult);  
-            id = credentials.Id;
-            clientId = credentials.Code;
-            clientSecret = credentials.Secret;
-        }
-
-        public string GetClientId()
-        {
-            return clientId;
-        }
-
-        public string GetClientSecret()
-        {
-            return clientSecret;
-        }
-
-        public int GetId()
-        {
-            return id;
+            
+            return credentials;
         }
     }
 }
