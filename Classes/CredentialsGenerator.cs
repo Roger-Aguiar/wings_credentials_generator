@@ -15,7 +15,8 @@ namespace WingsCredentialsApproval
             this.clientId = headers.ClientId;
             this.clientSecret = headers.ClientSecret;  
         }        
-        public Credentials GenerateCredentials(Payload payload)
+        
+        public string GenerateCredentials(Payload payload)
         {                                  
             var authentication = new Authentication(clientId, clientSecret);
             var access_token = authentication.GenerateAccessToken();            
@@ -27,7 +28,7 @@ namespace WingsCredentialsApproval
             request.Headers.Add("client_secret", this.clientSecret);
             request.Headers.Add("access_token", access_token);
                      
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(payload);
+            var json = JsonConvert.SerializeObject(payload);
 
             using(var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
@@ -40,10 +41,8 @@ namespace WingsCredentialsApproval
             {
                 credentialsResult = streamReader.ReadToEnd();
             }
-
-            Credentials credentials = JsonConvert.DeserializeObject<Credentials>(credentialsResult);  
-            
-            return credentials;
+                        
+            return credentialsResult;
         }
     }
 }
