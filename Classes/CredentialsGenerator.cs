@@ -5,27 +5,27 @@ using Newtonsoft.Json;
 namespace WingsCredentialsApproval
 {
     public class CredentialsGenerator : ICredentialsGenerator
-    {
-        private string clientId;
-        private string clientSecret;        
+    {                
         private string credentialsResult = null;
+        private readonly Headers headers;
+        private readonly Payload payload;
                 
-        public CredentialsGenerator(Headers headers)
-        {
-            this.clientId = headers.ClientId;
-            this.clientSecret = headers.ClientSecret;  
+        public CredentialsGenerator(Headers headers, Payload payload)
+        {            
+            this.headers = headers;
+            this.payload = payload;
         }        
         
-        public string GenerateCredentials(Payload payload)
-        {                                  
-            var authentication = new Authentication(clientId, clientSecret);
+        public string GenerateCredentials()
+        {                                              
+            var authentication = new Authentication(headers.ClientId, headers.ClientSecret);
             var access_token = authentication.GenerateAccessToken();            
             var request = (HttpWebRequest)WebRequest.Create("https://api-dev.pottencial.com.br/apps/v1/apps/");            
             
             request.ContentType = "application/json";            
             request.Method = "POST";            
-            request.Headers.Add("client_id", this.clientId);
-            request.Headers.Add("client_secret", this.clientSecret);
+            request.Headers.Add("client_id", headers.ClientId);
+            request.Headers.Add("client_secret", headers.ClientSecret);
             request.Headers.Add("access_token", access_token);
                      
             var json = JsonConvert.SerializeObject(payload);
