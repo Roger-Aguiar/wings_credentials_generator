@@ -18,7 +18,7 @@ namespace WingsCredentialsApproval
         
         public string GenerateCredentials()
         {                                              
-            var authentication = new Authentication(headers.ClientId, headers.ClientSecret);
+            var authentication = new Authentication(headers);
             var access_token = authentication.GenerateAccessToken();            
             var request = (HttpWebRequest)WebRequest.Create("https://api-dev.pottencial.com.br/apps/v1/apps/");            
             
