@@ -25,8 +25,8 @@ namespace WingsCredentialsApproval
             })).GetAwaiter().GetResult();
 
             var result = request.Content.ReadAsStringAsync();                      
-
-            HefestoToken token = JsonConvert.DeserializeObject<HefestoToken>(result.Result);
+            
+            var token = JsonConvert.DeserializeObject<dynamic>(result.Result);
             return token.access_token;
         }
     }
